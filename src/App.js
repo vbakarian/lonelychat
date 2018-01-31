@@ -11,6 +11,7 @@ class App extends Component {
     this.botName = "Josie"
   }
   addBotMessage = () => {
+    
     var idx = Math.floor(Math.random() * this.messageBank.length) //gets random message from messageBank
     this.setState({ messages: this.state.messages.concat({ name: this.botName, body: this.messageBank[idx] }) })
   }
@@ -21,11 +22,13 @@ class App extends Component {
     return this.state.messages.map((x) => (<div>{x.name} : {x.body}</div>));
   }
   addName = () =>{
+    this.nameDiv.hidden = true;
     this.name = this.nameInput.value;
   }
 
   clicked = () => {
     this.setState({ messages: this.state.messages.concat({ name: this.name, body: this.messageInput.value }) });
+    this.messageInput.value = "";
     setTimeout(this.addBotMessage, 2000)
   }
 
@@ -36,9 +39,12 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Lonely Chat</h1>
         </header>
-        {this.displayLine()}
+        <div ref={(x) => {this.nameDiv = x}}>
         <input ref={(x) => {this.nameInput = x}}/>
         <button onClick={this.addName}>Add name</button>
+        </div>
+        {this.displayLine()}
+        <br/>
         <input ref={(x) => { this.messageInput = x }}/>
         <button onClick={this.clicked}>Send</button>
       </div>
